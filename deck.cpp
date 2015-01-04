@@ -1,6 +1,11 @@
 #include "deck.h"
 #include "card.h"
 #include <iostream>
+#include <string>
+#include <stdlib.h>
+#include <stdio.h>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 deck::deck()
@@ -9,18 +14,18 @@ deck::deck()
     cout << "The card number is " << this->place << endl;
     this->turn  = 1;
     cout << "It is player " << this->turn << "'s turn.\n";
-    cards[0 ] = new card(1 , 1, 0 , 0);    cards[1 ] = new card(1 , 1, 1 , 0);
-    cards[2 ] = new card(1 , 1, 2 , 0);    cards[3 ] = new card(1 , 1, 3 , 0);
-    cards[4 ] = new card(2 , 1, 4 , 0);    cards[5 ] = new card(2 , 1, 5 , 0);
-    cards[6 ] = new card(2 , 1, 6 , 0);    cards[7 ] = new card(2 , 1, 7 , 0);
-    cards[8 ] = new card(3 , 1, 8 , 0);    cards[9 ] = new card(3 , 1, 9 , 0);
-    cards[10] = new card(3 , 1, 10, 0);    cards[11] = new card(3 , 1, 11, 0);
-    cards[12] = new card(4 , 1, 12, 0);    cards[13] = new card(4 , 1, 13, 0);
-    cards[14] = new card(4 , 1, 14, 0);    cards[15] = new card(4 , 1, 15, 0);
-    cards[16] = new card(5 , 1, 16, 0);    cards[17] = new card(5 , 1, 17, 0);
-    cards[18] = new card(5 , 1, 18, 0);    cards[19] = new card(5 , 1, 19, 0);
-    cards[20] = new card(6 , 1, 20, 0);    cards[21] = new card(6 , 1, 21, 0);
-    cards[22] = new card(6 , 1, 22, 0);    cards[23] = new card(6 , 1, 23, 0);
+    cards[0 ] = new card(1 , 1, 0 , 0);    cards[1 ] = new card(1 , 2, 1 , 0);
+    cards[2 ] = new card(1 , 1, 2 , 0);    cards[3 ] = new card(1 , 4, 3 , 0);
+    cards[4 ] = new card(2 , 1, 4 , 0);    cards[5 ] = new card(2 , 2, 5 , 0);
+    cards[6 ] = new card(2 , 1, 6 , 0);    cards[7 ] = new card(2 , 4, 7 , 0);
+    cards[8 ] = new card(3 , 1, 8 , 0);    cards[9 ] = new card(3 , 2, 9 , 0);
+    cards[10] = new card(3 , 1, 10, 0);    cards[11] = new card(3 , 4, 11, 0);
+    cards[12] = new card(4 , 1, 12, 0);    cards[13] = new card(4 , 2, 13, 0);
+    cards[14] = new card(4 , 1, 14, 0);    cards[15] = new card(4 , 4, 15, 0);
+    cards[16] = new card(5 , 1, 16, 0);    cards[17] = new card(5 , 2, 17, 0);
+    cards[18] = new card(5 , 1, 18, 0);    cards[19] = new card(5 , 4, 19, 0);
+    cards[20] = new card(6 , 1, 20, 0);    cards[21] = new card(6 , 2, 21, 0);
+    cards[22] = new card(6 , 1, 22, 0);    cards[23] = new card(6 , 4, 23, 0);
     cards[24] = new card(7 , 1, 24, 0);    cards[25] = new card(7 , 1, 25, 0);
     cards[26] = new card(7 , 1, 26, 0);    cards[27] = new card(7 , 1, 27, 0);
     cards[28] = new card(8 , 1, 28, 0);    cards[29] = new card(8 , 1, 29, 0);
@@ -44,8 +49,13 @@ deck::~deck()
 }
 
 void deck::shuffleDeck(){
-
+    srand ( time(NULL) );
+    random_shuffle(&queue[0], &queue[48]);
     //find a library that shuffles an array
+    //for(int i = 0; i < 48; i++){
+        //cout << queue[i] << " ";
+    //}
+    //cout << endl;
 }
 
 void deck::dealDeck(){
@@ -120,6 +130,42 @@ void deck::printStatus(){
     }
 }
 
+/*void deck::linkCards(QPushButton** mybuttons){
+    int i = 0;
+    int j[3] = {0, 0, 0};
+    for( int k = 0; k < 48; k++){
+        int i       = cards[queue[k]]->getOwner();
+        int mymonth = cards[queue[k]]->getMonth();
+        int myvalue = cards[queue[k]]->getValue();
+        string myvaluestr;
+        string mymonthstr;
+
+        QString mycommand = "border-image: url(/Users/nicholassaylor/Prog/koikoi/hanafuda/mod_Hanafuda_";
+        mycommand += QString::number(mymonth);
+        mycommand += "-";
+        mycommand += QString::number(queue[k] % 4 + 1);
+        mycommand += ".svg)  0 0 0 0 stretch stretch;";
+        //QString::number(num);
+
+        //QString qstr = QString::fromStdString(mycommand);
+        //cout << mycommand.toStdString() << endl;
+        if( i <= 3 && i > 0){
+            int ind = 0;
+            if( i == 3 ){
+                ind = 0;
+            }else{
+                ind = i;
+            }
+            //cout << mycommand << endl;
+            cout << j[ind] << ", " << i << endl;
+            //mybuttons[i][j[i]].setStyleSheet(qstr);
+            mybuttons[j[ind]][0].setStyleSheet(mycommand);
+            j[ind]++;
+        }
+    }
+}*/
+
+
 int  deck::getTurn(){
     return turn;
 }
@@ -132,9 +178,7 @@ int  deck::getPlace(){
     return place;
 }
 
-card*deck::getCards(){
-    //card* card_ptr = cards;
-    //return card_ptr;
+card** deck::getCards(){
+    return (card**)cards;
 }
-
 

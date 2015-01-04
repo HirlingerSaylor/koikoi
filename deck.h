@@ -1,6 +1,7 @@
 #ifndef DECK_H
 #define DECK_H
 #include "card.h"
+#include <QPushButton>
 
 class deck
 {
@@ -15,10 +16,11 @@ class deck
         void checkPoints();
         void takeTurns();//simply toggles int turn
         void printStatus();
+        //void linkCards(QPushButton** mybuttons);
         int  getTurn();
         int* getQueue();
         int  getPlace();
-        card*getCards();
+        card** getCards();
     private:
         int turn;//whose turn, player 1 or 2
         int queue[48];
