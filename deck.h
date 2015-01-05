@@ -16,7 +16,6 @@ class deck
         void checkPoints();
         void takeTurns();//simply toggles int turn
         void printStatus();
-        //void linkCards(QPushButton** mybuttons);
         int  getTurn();
         int* getQueue();
         int  getPlace();

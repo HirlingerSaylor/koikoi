@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include "card.h"
 #include "deck.h"
+#include <QSignalMapper>
 
 namespace Ui {
 class MainWindow;
@@ -17,13 +18,17 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    //QPushButton** getButtons();
     void linkCards(deck*);
+private slots:
+    void swapButtons(QString mycommand);
 private:
     Ui::MainWindow *ui;
-    QPushButton* mbutton[3][8];
-    //QPushButton* mbuttonwhite[3][8];
+    QPushButton* mbuttonhand[2][8];
+    QPushButton* mbuttoncapture[2][32];
+    QPushButton* mbuttonfield[12];
     QPushButton* mbuttondeck;
+    QPushButton* mbuttonplayed;
+    QSignalMapper* mapper;
 };
 
 #endif // MAINWINDOW_H

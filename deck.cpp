@@ -4,6 +4,7 @@
 #include <string>
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include <cstdlib>
 #include <ctime>
 using namespace std;
@@ -11,41 +12,20 @@ using namespace std;
 deck::deck()
 {
     this->place = 0;
-    cout << "The card number is " << this->place << endl;
+    //cout << "The card number is " << this->place << endl;
     this->turn  = 1;
-    cout << "It is player " << this->turn << "'s turn.\n";
-    cards[0 ] = new card(1 , 1, 0 , 0);    cards[1 ] = new card(1 , 2, 1 , 0);
-    cards[2 ] = new card(1 , 1, 2 , 0);    cards[3 ] = new card(1 , 4, 3 , 0);
-    cards[4 ] = new card(2 , 1, 4 , 0);    cards[5 ] = new card(2 , 2, 5 , 0);
-    cards[6 ] = new card(2 , 1, 6 , 0);    cards[7 ] = new card(2 , 4, 7 , 0);
-    cards[8 ] = new card(3 , 1, 8 , 0);    cards[9 ] = new card(3 , 2, 9 , 0);
-    cards[10] = new card(3 , 1, 10, 0);    cards[11] = new card(3 , 4, 11, 0);
-    cards[12] = new card(4 , 1, 12, 0);    cards[13] = new card(4 , 2, 13, 0);
-    cards[14] = new card(4 , 1, 14, 0);    cards[15] = new card(4 , 4, 15, 0);
-    cards[16] = new card(5 , 1, 16, 0);    cards[17] = new card(5 , 2, 17, 0);
-    cards[18] = new card(5 , 1, 18, 0);    cards[19] = new card(5 , 4, 19, 0);
-    cards[20] = new card(6 , 1, 20, 0);    cards[21] = new card(6 , 2, 21, 0);
-    cards[22] = new card(6 , 1, 22, 0);    cards[23] = new card(6 , 4, 23, 0);
-    cards[24] = new card(7 , 1, 24, 0);    cards[25] = new card(7 , 1, 25, 0);
-    cards[26] = new card(7 , 1, 26, 0);    cards[27] = new card(7 , 1, 27, 0);
-    cards[28] = new card(8 , 1, 28, 0);    cards[29] = new card(8 , 1, 29, 0);
-    cards[30] = new card(8 , 1, 30, 0);    cards[31] = new card(8 , 1, 31, 0);
-    cards[32] = new card(9 , 1, 32, 0);    cards[33] = new card(9 , 1, 33, 0);
-    cards[34] = new card(9 , 1, 34, 0);    cards[35] = new card(9 , 1, 35, 0);
-    cards[36] = new card(10, 1, 36, 0);    cards[37] = new card(10, 1, 37, 0);
-    cards[38] = new card(10, 1, 38, 0);    cards[39] = new card(10, 1, 39, 0);
-    cards[40] = new card(11, 1, 40, 0);    cards[41] = new card(11, 1, 41, 0);
-    cards[42] = new card(11, 1, 42, 0);    cards[43] = new card(11, 1, 43, 0);
-    cards[44] = new card(12, 1, 44, 0);    cards[45] = new card(12, 1, 45, 0);
-    cards[46] = new card(12, 1, 46, 0);    cards[47] = new card(12, 1, 47, 0);
+    //cout << "It is player " << this->turn << "'s turn.\n";
+    int valueList[48] = {1, 1, 2, 4, 1, 1, 2, 3, 1, 1, 2, 4, 1, 1, 2, 3, 1, 1, 2, 3, 1, 1, 2, 3,
+                         1, 1, 2, 3, 1, 1, 3, 4, 1, 1, 2, 5, 1, 1, 2, 3, 1, 2, 3, 4, 1, 1, 1, 4};
     for(int i = 0; i < 48; i++){
+        cards[i] = new card( floor( i / 4 ) + 1, valueList[i], i, 5);
         queue[i] = i;
     }
 }
 
 deck::~deck()
 {
-    cout << "Goodbye. Thank you for playing.\n";
+
 }
 
 void deck::shuffleDeck(){
@@ -60,22 +40,23 @@ void deck::shuffleDeck(){
 
 void deck::dealDeck(){
     while( place < 24 ){
-        //cout << place << endl;
+        //cout << place << ": ";
         if( place >=0 && place < 4 ){
-            cards[queue[place]]->setOwner(1);
+            cards[queue[place]]->setOwner(0);
         }else if( place >= 4 && place < 8 ){
-            cards[queue[place]]->setOwner(2);
-        }else if( place >= 8 && place < 12 ){
-            cards[queue[place]]->setOwner(3);
-        }else if( place >= 12 && place < 16 ){
             cards[queue[place]]->setOwner(1);
+        }else if( place >= 8 && place < 12 ){
+            cards[queue[place]]->setOwner(4);
+        }else if( place >= 12 && place < 16 ){
+            cards[queue[place]]->setOwner(0);
         }else if( place >= 16 && place < 20 ){
-            cards[queue[place]]->setOwner(2);
+            cards[queue[place]]->setOwner(1);
         }else if( place >= 20 && place < 24 ){
-            cards[queue[place]]->setOwner(3);
+            cards[queue[place]]->setOwner(4);
         }else{
             cout << "Something has gone very wrong!\n";
         }
+        //cout << cards[queue[place]]->getId() << endl;
         place++;
     }
 }
@@ -86,9 +67,9 @@ void deck::playCard(int myid){
 }
 
 void deck::drawCard(){
-    cards[queue[place]]->setOwner(3);
-    checkMatch(queue[place]);
-    place++;
+    //cards[queue[place]]->setOwner(3);
+    //checkMatch(queue[place]);
+    //place++;
 }
 
 void deck::checkMatch(int myid){
@@ -129,42 +110,6 @@ void deck::printStatus(){
         cout << cards[i]->getValue() << " " << cards[i]->getOwner() << endl;
     }
 }
-
-/*void deck::linkCards(QPushButton** mybuttons){
-    int i = 0;
-    int j[3] = {0, 0, 0};
-    for( int k = 0; k < 48; k++){
-        int i       = cards[queue[k]]->getOwner();
-        int mymonth = cards[queue[k]]->getMonth();
-        int myvalue = cards[queue[k]]->getValue();
-        string myvaluestr;
-        string mymonthstr;
-
-        QString mycommand = "border-image: url(/Users/nicholassaylor/Prog/koikoi/hanafuda/mod_Hanafuda_";
-        mycommand += QString::number(mymonth);
-        mycommand += "-";
-        mycommand += QString::number(queue[k] % 4 + 1);
-        mycommand += ".svg)  0 0 0 0 stretch stretch;";
-        //QString::number(num);
-
-        //QString qstr = QString::fromStdString(mycommand);
-        //cout << mycommand.toStdString() << endl;
-        if( i <= 3 && i > 0){
-            int ind = 0;
-            if( i == 3 ){
-                ind = 0;
-            }else{
-                ind = i;
-            }
-            //cout << mycommand << endl;
-            cout << j[ind] << ", " << i << endl;
-            //mybuttons[i][j[i]].setStyleSheet(qstr);
-            mybuttons[j[ind]][0].setStyleSheet(mycommand);
-            j[ind]++;
-        }
-    }
-}*/
-
 
 int  deck::getTurn(){
     return turn;
